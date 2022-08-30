@@ -1,0 +1,24 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "ChatRoom-Project",
+      "description": 
+      "채팅 웹 사이트를 위해 만들어진 api 문서입니다.",
+      "version": "1.0"
+    },
+    "produces": ["application/json"],
+    "host": "uskawjdu.iptime.org:8082",
+    "basePath": "/api/swagger/v1",
+    "paths": {
+      "/test1": {
+        "get": {
+          "x-swagger-router-controller": "middleware-name1",
+          "operationId": "swagTest",
+          "tags": ["/api"],
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      }
+    }
+ }

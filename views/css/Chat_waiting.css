@@ -1,0 +1,263 @@
+.mediaViewInfo {
+	--web-view-name: Chat-waiting;
+	--web-view-id: Chat-waiting;
+	--web-scale-to-fit: true;
+	--web-scale-to-fit-type: fit;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+:root {
+	--web-view-ids: Chat-waiting;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+.Chat-waiting_Class {
+	position: absolute;
+	width: 400px;
+	height: 800px;
+	background-color: rgba(255,255,255,1);
+	overflow: hidden;
+	--web-view-name: Chat-waiting;
+	--web-view-id: Chat-waiting;
+	--web-scale-to-fit: true;
+	--web-scale-to-fit-type: fit;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+.head-title_Class {
+	position: absolute;
+	width: 400px;
+	height: 40px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+.n_3_Class {
+	position: absolute;
+	width: 400px;
+	height: 40px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+.head-box_Class {
+	fill: rgba(252,170,170,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.head-box {
+	position: absolute;
+	overflow: visible;
+	width: 400px;
+	height: 40px;
+	left: 0px;
+	top: 0px;
+}
+.Chat-name-number_Class {
+	position: absolute;
+	width: 115px;
+	height: 21px;
+	left: 143px;
+	top: 10px;
+	overflow: visible;
+}
+.Room_name_Class {
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	overflow: visible;
+	width: 116px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	color: rgba(255,255,255,1);
+}
+.input-message_Class {
+	position: absolute;
+	width: 109px;
+	height: 36px;
+	left: 10px;
+	top: 750px;
+	overflow: visible;
+}
+.box_Class {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(252,170,170,1);
+	stroke-width: 2px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.box {
+	position: absolute;
+	overflow: visible;
+	width: 109px;
+	height: 36px;
+	left: 0px;
+	top: 0px;
+}
+.Text_Class {
+	opacity: 0.5;
+	left: 28px;
+	top: 8px;
+	position: absolute;
+	overflow: visible;
+	width: 55px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	color: rgba(0,0,0,1);
+}
+.join_Class {
+	position: absolute;
+	width: 109px;
+	height: 36px;
+	left: 146px;
+	top: 750px;
+	overflow: visible;
+}
+
+
+.box_r_Class {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(0,185,93,1);
+	stroke-width: 2px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.box_r {
+	position: absolute;
+	overflow: visible;
+	width: 109px;
+	height: 36px;
+	left: 0px;
+	top: 0px;
+}
+.Text_s_Class {
+	opacity: 0.5;
+	left: 19px;
+	top: 6px;
+	position: absolute;
+	overflow: visible;
+	width: 73px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	color: rgba(0,0,0,1);
+}
+
+#Chat-waiting {
+	border : 1px black solid;
+	position: absolute;
+	overflow: visible;
+	width: 402px;
+	height: 800px;
+	left: 0px;
+	top: 0px;
+}
+.room-element {
+	border : 1px black solid;
+	border-radius: 13px 13px 13px 13px;
+	position: absolute;
+	overflow: visible;
+	width: 380px;
+	height: 36px;
+}
+
+.room-element-title {
+	left: 25px;
+	top : 8px;
+	position: absolute;
+	overflow: visible;
+	width: 89px;
+	height: 21px;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	color: rgba(0,0,0,1);
+}
+.room-element-people {
+	border : 1px black solid;
+	border-radius: 13px 13px 13px 13px;
+	position: absolute;
+	width: 101px;
+	height: 36px;
+	left: 279px;
+	overflow: visible;
+}
+
+.Text__Class {
+	left: 27px;
+	top: 8px;
+	position: absolute;
+	overflow: visible;
+	width: 49px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	color: rgba(0,0,0,1);
+}
+
+.room-element-type {
+	border : 1px black solid;
+	border-radius: 13px 13px 13px 13px;
+	position: absolute;
+	width: 101px;
+	height: 36px;
+	left: 150px;
+	overflow: visible;
+}
+
+
+.room-element-people-text {
+	left: 30px;
+	top: 8px;
+	position: absolute;
+	overflow: visible;
+	width: 42px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Segoe UI;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	color: rgba(0,0,0,1);
+}
+
+
+
+
+#body {
+	/* border : 1px black solid; */
+	position: absolute;
+	overflow: visible;
+	width: 380px;
+	height: 652px;
+	left: 10px;
+	top: 76px;
+}
