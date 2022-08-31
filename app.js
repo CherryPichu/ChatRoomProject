@@ -7,6 +7,7 @@ dotenv.config();
 
 const path = require('path');
 const app = express();
+const routerindex = require('./routes/index.js')
 
 app.use(express.static(path.join(__dirname, 'views/css'))) // 정적파일 제공
 app.use(express.static(path.join(__dirname, 'views/js'))) // 정적파일 제공
@@ -18,6 +19,8 @@ app.use(morgan('dev'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+app.use('/select', routerindex)
 app.get('/', (req, res, next) => {
     res.sendFile(path.join(__dirname, './views', 'Chat_waiting.html'))
 })
