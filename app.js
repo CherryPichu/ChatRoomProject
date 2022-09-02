@@ -20,10 +20,11 @@ app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 
-app.use('/select', routerindex)
-app.get('/', (req, res, next) => {
-    res.sendFile(path.join(__dirname, './views', 'Chat_waiting.html'))
-})
+// app.use('/select', routerindex)
+app.use('/', routerindex)
+// app.get('/', (req, res, next) => {
+//     res.sendFile(path.join(__dirname, './views', 'Chat_waiting.html'))
+// })
 
 
 var options = {
@@ -31,6 +32,7 @@ var options = {
       validatorUrl: null
     }
   };
+
 // app.use('')
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 // swagger api 문서
