@@ -1,4 +1,39 @@
-const sql = require('./db.js')
+const sql = require('./db.config.js')
+
+
+// 참고 : 
+// https://velog.io/@godkor200/%EA%B7%80%EC%B0%AE%EC%9D%80-api-%EB%AC%B8%EC%84%9C-swagger-UI%EB%A1%9C-%EC%9E%90%EB%8F%99%ED%99%94
+/**
+ * @swagger
+ *  components :
+ *  schemas :
+ *   Client : 
+ *      properties :
+ *       id :
+ *          type : int(11)
+ *       email :
+ *          type : varchar(40)
+ *       password : 
+ *          type : varchar(40)
+ *       nick :
+ *          type : varchar(20) 
+ *       colorHash :
+ *          type : varchar(100)
+ *          default : NULL
+ *       snsId :
+ *          type : varchar(30)
+ *          default : NULL
+ *       createAt :
+ *          type : DATETIME
+ *          default : CURRENT_TIMESTAMP
+ *       updatedat : 
+ *          type : DATETIME
+ *          default : CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+ *       deletedAt :
+ *          type : DATETIME
+ *          default : NULL
+ *          
+ *  */
 
 const Client = function (client) { // 생성자
     this.id = null;
@@ -47,7 +82,7 @@ Client.findByID = (clientID, result) => {
 }
 
 
-Client.getAll = result => {
+Client.getAll = async (result) => {
     sql.query("SELECT * FROM client", (err, res) => {
         if(err){
             console.log("error : ", err);
@@ -55,7 +90,8 @@ Client.getAll = result => {
             return;
         }
 
-        console.log("client : ", res);
+        // console.log("client : ", res);
+        // console.log(result)
         result(null, res)
     })
 }
@@ -82,7 +118,7 @@ Client.updateByID = (id, client, result) => {
 
 
 Client.remove = (id, result) => {
-    sql.query('UPDATE client deletedAt WHERE id = ?', id, (err, res) => {
+    sql.query('UPDATE client SET deletedAt = now() WHERE id = ?', id, (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -97,6 +133,7 @@ Client.remove = (id, result) => {
         result(null, res);
     })
 }
+
 
 module.exports = Client;
 

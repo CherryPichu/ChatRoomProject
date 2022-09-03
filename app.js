@@ -7,7 +7,8 @@ dotenv.config();
 
 const path = require('path');
 const app = express();
-const routerindex = require('./routes/index.js')
+const routerindex = require('./routes/index.js');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 app.use(express.static(path.join(__dirname, 'views/css'))) // 정적파일 제공
 app.use(express.static(path.join(__dirname, 'views/js'))) // 정적파일 제공
@@ -27,16 +28,13 @@ app.use('/', routerindex)
 // })
 
 
-var options = {
-    swaggerOptions: {
-      validatorUrl: null
-    }
-  };
 
+const options = require('./src/swagger')
 // app.use('')
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 // swagger api 문서
-
+const specs = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기중')

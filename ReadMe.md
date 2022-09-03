@@ -28,4 +28,22 @@
 
 
 
+#### Nodejs 패키지 사용 목록
+- swagger-jsdoc swagger-ui-express : API 명세서 자동화
+- nodemon : 편리한 실행
+- nunjucks : view엔진
+- dotenv : .env 파일 사용.
+- cookie-parser : 쿠키피싱
+- color-hash : 사용자에게 컬러 부여
+- path : 폴더 지정.
+- jest : test 도구.
+  - "test: "jest"
+
+
+
+#### 참고 상트
+- swagger api 문서 자동화
+  - https://velog.io/@godkor200/%EA%B7%80%EC%B0%AE%EC%9D%80-api-%EB%AC%B8%EC%84%9C-swagger-UI%EB%A1%9C-%EC%9E%90%EB%8F%99%ED%99%94
+- Rest Api - model 만들기
+  - https://1-day-1-coding.tistory.com/51
 
