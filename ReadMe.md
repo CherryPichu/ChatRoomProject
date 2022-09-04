@@ -47,3 +47,12 @@
 - Rest Api - model 만들기
   - https://1-day-1-coding.tistory.com/51
 
+
+#### 제작시 참고상황.
+- MVC 패턴을 고려하여 만든다.
+  - M (model) : restapi 구조로 작성한다.
+  - C (Controller) : Model 조작에 대한 동적인 함수를 제공한다.
+    - R (Router) : 요청에 대한 응답을 결정한다.
+    - S (Socket) : WS(Web Socket) 프로토콜을 이용하여 채팅방을 구현한다.
+  - V (View) : nunjucks view 엔진을 사용한다. 추후에는 React로 싱글페이지를 구현하다.
+
