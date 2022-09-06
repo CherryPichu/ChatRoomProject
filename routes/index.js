@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 
-const client = require('../models/client.js')
+const Client = require('../models/Client.js')
 
 router.get('/', (req, res, next) => {
 
@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/add', (req, res, next) => {
     console.log("/add")
-    const newclient = new client({
+    const newclient = new Client({
         nick : "namjung",
         email : req.query.email,
         password : "1234",
@@ -30,7 +30,7 @@ router.get('/add', (req, res, next) => {
         snsid : null,
         deletedAt : null,
     }) 
-    client.create(newclient, (err, data)=>{
+    Client.create(newclient, (err, data)=>{
         if(err){
             res.status(500).send({
                 message:

@@ -60,7 +60,7 @@ CURD MODEL 만들기
  
 */
 Client.create  = (newClient, result) =>{
-    sql.query('insert into client SET ? ', newClient, (err, res) => {
+    sql.query('insert into Client SET ? ', newClient, (err, res) => {
         if(err){
             console.log("error : ", err)
             result(err, null)
@@ -73,7 +73,7 @@ Client.create  = (newClient, result) =>{
 
 
 Client.findByClient = (byclient, result) => {
-    sql.query("SELECT * FROM client Where ?", byclient, (err,res) => {
+    sql.query("SELECT * FROM Client Where ?", byclient, (err,res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null)
@@ -92,7 +92,7 @@ Client.findByClient = (byclient, result) => {
 
 
 Client.getAll = (result) => {
-    sql.query("SELECT * FROM client", (err, res) => {
+    sql.query("SELECT * FROM Client", (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null)
@@ -107,7 +107,7 @@ Client.getAll = (result) => {
 }
 
 Client.updateByID = (id, client, result) => {
-    sql.query("UPDATE client SET email = ?, password = ?, nick = ?, colorHash = ?, snsid = ?, deletedAt = ?, createAt = ?, updateAt = ? WHERE id = ?",
+    sql.query("UPDATE Client SET email = ?, password = ?, nick = ?, colorHash = ?, snsid = ?, deletedAt = ?, createAt = ?, updateAt = ? WHERE id = ?",
     [client.enail, client.password , client.nick , client.colorHash, client.snsid, 
         client.deletedAt, client.createAt, client.updateAt ,client.id],
         (err, res) => {
@@ -121,7 +121,7 @@ Client.updateByID = (id, client, result) => {
                 return;
             }
 
-            console.log("update client : ", {id :id, client})
+            console.log("update Client : ", {id :id, client})
             result.null, {id: id, client}
         })
         return 200;
@@ -133,7 +133,7 @@ Client.remove = async (byemail, result) =>  {
         // console.log(byclient)
     let res = ''
     try{
-        res = await sql.promise().query('DELETE FROM client WHERE email = ?', [byemail], (err, res) => {
+        res = await sql.promise().query('DELETE FROM Client WHERE email = ?', [byemail], (err, res) => {
             if(err){
                 console.log("error : ", err);
                 result(err, null);
