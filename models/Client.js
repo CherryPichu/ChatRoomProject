@@ -91,19 +91,18 @@ Client.findByClient = (byclient, result) => {
 }
 
 
-Client.getAll = (result) => {
-    sql.query("SELECT * FROM Client", (err, res) => {
-        if(err){
-            console.log("error : ", err);
-            result(err, null)
-            return;
-        }
-
-        // console.log("client : ", res);
-        // console.log(result)
-        result(null, res)
-    })
-    return 200;
+// 09-12 
+Client.getAll = async () => {
+    
+    return await sql.promise().query("SELECT * FROM Client")
+    // .catch((err, res) => {
+    //     if(err){
+    //         console.log("error : ", err);
+    //         result(err, null)
+    //         return;
+    //     }
+    //     result(null, res)
+    // })
 }
 
 Client.updateByID = (id, client, result) => {

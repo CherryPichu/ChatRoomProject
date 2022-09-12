@@ -38,10 +38,15 @@
 - path : 폴더 지정.
 - jest : test 도구.
   - "test: "jest"
+- socket.io : 소켓 통신에 사용
+- express-socket.io-session : socket.io 내에서 session 데이터 접근
+- ws : websocket 프로토콜을 위한 라이브러리
+- express-session : session 관리 라이브러리
+- cookie-parser : 쿠키 관리 라이브러리
 
 
 
-#### 참고 상트
+#### 참고 사이트
 - swagger api 문서 자동화
   - https://velog.io/@godkor200/%EA%B7%80%EC%B0%AE%EC%9D%80-api-%EB%AC%B8%EC%84%9C-swagger-UI%EB%A1%9C-%EC%9E%90%EB%8F%99%ED%99%94
 - Rest Api - model 만들기

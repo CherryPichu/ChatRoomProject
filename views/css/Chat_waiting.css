@@ -176,21 +176,25 @@
 	top: 0px;
 }
 .room-element {
+	margin-top: 0.5em;
 	border : 1px black solid;
 	border-radius: 13px 13px 13px 13px;
-	position: absolute;
 	overflow: visible;
 	width: 380px;
 	height: 36px;
 }
 
 .room-element-title {
+	position: absolute;
+}
+
+.room-element-title-text{
 	left: 25px;
 	top : 8px;
 	position: absolute;
 	overflow: visible;
 	width: 89px;
-	height: 21px;
+	/* height: 21px; */
 	text-align: left;
 	font-family: Segoe UI;
 	font-style: normal;
@@ -198,6 +202,7 @@
 	font-size: 16px;
 	color: rgba(0,0,0,1);
 }
+
 .room-element-people {
 	border : 1px black solid;
 	border-radius: 13px 13px 13px 13px;
@@ -254,7 +259,8 @@
 
 #body {
 	/* border : 1px black solid; */
-	position: absolute;
+	position: relative;
+	float: left;
 	overflow: visible;
 	width: 380px;
 	height: 652px;

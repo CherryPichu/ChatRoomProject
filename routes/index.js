@@ -5,50 +5,19 @@ const router = express.Router()
 const Client = require('../models/Client.js')
 
 router.get('/', (req, res, next) => {
+    
 
-    // client.getAll((err, data) =>{
-    //     if(err){
-    //         res.status(500).send({
-    //             message:
-    //             err.message || "Some error occured while creating th Client"
-    //         })
-    //     }
-    //     // console.log(data)
-    // })
+    res.render('Chat_waiting', { 
+        Rooms : [
+            {title : "채팅방 - 1 ", max : 20 , inPeople : 5, state : "public"},
+            {title : "채팅방 - 2 ", max : 30, inPeople :2, state : "secret"}
+        ]
+    })
 
-
-    res.sendFile(path.join(__dirname, '../views', 'Chat_waiting.html'))
 })
 
-router.get('/add', (req, res, next) => {
-    console.log("/add")
-    const newclient = new Client({
-        nick : "namjung",
-        email : req.query.email,
-        password : "1234",
-        colorHash : null,
-        snsid : null,
-        deletedAt : null,
-    }) 
-    Client.create(newclient, (err, data)=>{
-        if(err){
-            res.status(500).send({
-                message:
-                err.message || "Some error occured while creating th Client"
-            })
-        }
-        console.log(data)
-    })
-    res.send("good")
-})
-
-router.get("/remove", (req, res, next) => {
-    client.remove(req.query.id, (err, data) => {
-        if(err){
-            console.error(err)
-        }
-    })
-    res.send('good')
+router.get('/ChatRoom', (req, res, next) => {
+    res.render('Chat_Room')
 })
 
 module.exports = router

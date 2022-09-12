@@ -8,6 +8,13 @@ const sql = require('./db.config.js')
  *      properties :
  *       title :
  *          type : varchar(20)
+ *       inPeople :
+ *          type : int(11)
+ *          default : 0
+ *       state :
+ *          type : varchar(50)
+ *          default : Public
+ *          Value : Public / Secret
  *       max :
  *          type : int(11)
  *       owner :
@@ -22,9 +29,11 @@ const sql = require('./db.config.js')
 
 const Room = function (room) {
     this.title = room.title;
+    this.inPeople = room.inPeople
     this.max = room.max;
     this.owner = room.owner;
     this.password = room.password;
+    this.state = room.state;
 }
 
 
@@ -62,18 +71,8 @@ Room.findByTitle = (roomtitle, result) => {
     return 200;
 }
 
-Room.getAll = result => {
-    sql.query("SELECT * FROM Room", (err, res) => {
-        if(err){
-            console.log("error : ", err);
-            result(err, null)
-            return;
-        }
-
-        // console.log("Room : ", res);
-        result(null, res)
-    })
-    return 200;
+Room.getAll = async () => {
+    return await sql.promise().query("SELECT * FROM Room")
 }
 
 

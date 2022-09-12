@@ -27,23 +27,29 @@
 
 		
 		<div id="body">
-			<div class="room-element"></div>
+			<!-- {% for Room in Rooms %}
+			<div class="room-element">
 				<div class="room-element-title">
-					<span>채팅방 - 1</span>
+					<div class="room-element-title-text">
+						<span>{{ Room.title }}</span>
+					</div>
 				</div>
 				<div class="room-element-people">
 					<div class="room-element-people-text">
-						<span>1 / 20</span>
+						<span>{{ Room.inPeople }} / {{ Room.max }}</span>
 					</div>
 				</div>
 				<div class="room-element-type">
 					<div class="Text__Class">
-						<span>비밀방</span>
+						<span>{{ Room.state }}</span>
 					</div>
 				</div>
+			</div>
+			{% endfor %} -->
 
 
 		</div>
+
 
 
 		<div id="foot">
@@ -66,6 +72,57 @@
 				</div>
 			</button>
 		</div>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io.connect('http://uskawjdu.iptime.org:8082/wattingRoom', {
+				path : '/socket.io'
+			})
+
+			socket.on('newRoom', (data) => {
+				const room_element = document.createElement('div');
+				room_element.className = 'room-element'
+				const room_element_title = document.createElement('div')
+				room_element_title.className ='room-element-title'
+				const room_element_title_text = document.createElement('div')
+				room_element_title_text.className = 'room-element-title-text'
+				const room_element_title_text_span = document.createElement('span')
+				room_element_title_text_span.textContent = data.title;
+				room_element.appendChild(room_element_title)
+				room_element_title.appendChild(room_element_title_text)
+				room_element_title_text.appendChild(room_element_title_text_span)
+
+				const room_element_people = document.createElement('div');
+				room_element_people.className = 'room-element-people'
+				const room_element_people_text = document.createElement('div');
+				room_element_people_text.className = 'room-element-people-text'
+				const room_element_people_text_span = document.createElement('span');
+				room_element_people_text_span.textContent = data.inPeople + " / " + data.max
+				room_element_people.appendChild(room_element_people_text)
+				room_element_people_text.appendChild(room_element_people_text_span)
+				room_element.appendChild(room_element_people)
+
+				const room_element_type = document.createElement('div');
+				const Text__Class = document.createElement('div');
+				const Text__Class_span = document.createElement('span');
+				room_element_type.appendChild(Text__Class)
+				Text__Class.appendChild(Text__Class_span)
+				Text__Class_span.textContent = data.state
+				room_element_type.className = "room-element-type"
+				Text__Class.className = "Text__Class"
+
+				room_element.appendChild(room_element_type)
+
+
+				
+
+				
+				document.querySelector('#body').appendChild(room_element)
+
+				
+			})
+
+			socket.emit('get room')
+		</script>
 
 	</div>
 </body>
