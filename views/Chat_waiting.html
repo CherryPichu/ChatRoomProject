@@ -27,25 +27,7 @@
 
 		
 		<div id="body">
-			<!-- {% for Room in Rooms %}
-			<div class="room-element">
-				<div class="room-element-title">
-					<div class="room-element-title-text">
-						<span>{{ Room.title }}</span>
-					</div>
-				</div>
-				<div class="room-element-people">
-					<div class="room-element-people-text">
-						<span>{{ Room.inPeople }} / {{ Room.max }}</span>
-					</div>
-				</div>
-				<div class="room-element-type">
-					<div class="Text__Class">
-						<span>{{ Room.state }}</span>
-					</div>
-				</div>
-			</div>
-			{% endfor %} -->
+
 
 
 		</div>
@@ -53,6 +35,7 @@
 
 
 		<div id="foot">
+			{% if not client %}
 			<div class="input-message_Class">
 				<svg class="box">
 					<rect class="box_Class" rx="17" ry="17" x="0" y="0" width="109" height="36">
@@ -71,7 +54,21 @@
 					<span>회원가입</span>
 				</div>
 			</button>
+			{% else %}
+			<div class="input-message_Class">
+				<svg class="box">
+					<rect class="box_Class" rx="17" ry="17" x="0" y="0" width="218" height="36">
+					</rect>
+				</svg>
+				<div class="Text_Class">
+					<span>{{ client.nick }}		님 안녕하세요!</span>
+				</div>
+			</div>
+			{% endif %}
+			
+
 		</div>
+
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			const socket = io.connect('http://uskawjdu.iptime.org:8082/wattingRoom', {

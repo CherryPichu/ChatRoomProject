@@ -20,10 +20,10 @@ describe("Room models", () => {
     })
 
     const result = (err, data) => { return err }
-    test("Room 테이블의 데이터를 모두 데이터를 가져옵니다. Room.getAll();", () => {
+    test("Room 테이블의 데이터를 모두 데이터를 가져옵니다. Room.getAll();", async () => {
         
         
-        expect( Room.getAll(result) ).toEqual(200);
+        expect( Room.getAll() ).not.toEqual(500);
     })
 
     test("Room 테이블에 새로운 유저를 추가합니다. Room.create", () => {

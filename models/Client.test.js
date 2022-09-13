@@ -23,10 +23,8 @@ describe("Client models", () => {
     })
 
     const result = (err, data) => { return err }
-    test("Client 테이블의 데이터를 모두 데이터를 가져옵니다. Client.getAll();", () => {
-        
-        
-        expect( client.getAll(result) ).toEqual(200);
+    test("Client 테이블의 데이터를 모두 데이터를 가져옵니다. Client.getAll();", async () => {
+        expect( await client.getAll(result) ).not.toEqual(500);
     })
 
     test("Client 테이블에 새로운 유저를 추가합니다. Client.create", () => {

@@ -72,7 +72,12 @@ Room.findByTitle = (roomtitle, result) => {
 }
 
 Room.getAll = async () => {
-    return await sql.promise().query("SELECT * FROM Room")
+    try {
+        return await sql.promise().query("SELECT * FROM Room")
+    }catch(err){
+        return 500
+    }
+
 }
 
 

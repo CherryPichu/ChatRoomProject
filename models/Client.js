@@ -36,19 +36,12 @@ const sql = require('./db.config.js')
  *  */
 
 const Client = function (client) { // 생성자
-    if(client.id != null)
         this.id = client.id;
-    if(client.email != null)
         this.email = client.email;
-    if(client.password  != null)
         this.password = client.password;
-    if(client.nick != null)
         this.nick = client.nick;
-    if(client.colorHash!= null)
         this.colorHash = client.colorHash;
-    if(client.snsid != null)
         this.snsid = client.snsid;
-    if(client.deletedAt != null)
         this.deletedAt = client.deletedAt;
     // this.createAt = client.createAt;
     // this.updatedAt = client.updatedAt;
@@ -72,29 +65,21 @@ Client.create  = (newClient, result) =>{
 }
 
 
-Client.findByClient = (byclient, result) => {
-    sql.query("SELECT * FROM Client Where ?", byclient, (err,res) => {
-        if(err) {
-            console.log("error: ", err);
-            result(err, null)
-            return;
-        }
-        if(res.length) {
-            // console.log("found client : ", res[0])
-            result(null, res[0])
-            return;
-        }
-        
-        result({kind : "not_found"}, null);
-    })
-    return 200;
+Client.findByIdandPassword = (byclient, result) => {
+
+    return sql.promise().query("SELECT * FROM Client Where email = ? AND password = ?", [byclient.email, byclient.password])
 }
 
 
 // 09-12 
 Client.getAll = async () => {
     
-    return await sql.promise().query("SELECT * FROM Client")
+    try{
+        return await sql.promise().query("SELECT * FROM Client")
+    }catch(err){
+        console.err(err)
+        return 500;
+    }
     // .catch((err, res) => {
     //     if(err){
     //         console.log("error : ", err);

@@ -43,6 +43,7 @@
 - ws : websocket 프로토콜을 위한 라이브러리
 - express-session : session 관리 라이브러리
 - cookie-parser : 쿠키 관리 라이브러리
+- body-parser : post 요청의 매개변수를 받기 위해 사용
 
 
 

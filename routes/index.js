@@ -6,18 +6,17 @@ const Client = require('../models/Client.js')
 
 router.get('/', (req, res, next) => {
     
-
-    res.render('Chat_waiting', { 
-        Rooms : [
-            {title : "채팅방 - 1 ", max : 20 , inPeople : 5, state : "public"},
-            {title : "채팅방 - 2 ", max : 30, inPeople :2, state : "secret"}
-        ]
-    })
+    
+    res.render('Chat_waiting', { client : req.session.client })
 
 })
 
 router.get('/ChatRoom', (req, res, next) => {
     res.render('Chat_Room')
+})
+
+router.get("/login", (req, res, next) => {
+    res.render('ChatLogin.html')
 })
 
 module.exports = router
