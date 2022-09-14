@@ -6,9 +6,7 @@ const Client = require('../models/Client.js')
 
 router.get('/', (req, res, next) => {
     
-    
     res.render('Chat_waiting', { client : req.session.client })
-
 })
 
 router.get('/ChatRoom', (req, res, next) => {

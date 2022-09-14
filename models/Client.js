@@ -67,7 +67,16 @@ Client.create  = (newClient, result) =>{
 
 Client.findByIdandPassword = (byclient, result) => {
 
-    return sql.promise().query("SELECT * FROM Client Where email = ? AND password = ?", [byclient.email, byclient.password])
+    sql.query("SELECT * FROM Client Where email = ? AND password = ?", 
+        [byclient.email, byclient.password],(err, res) =>{
+            if(err){
+                console.log('error : ', err);
+                result(err, null)
+            }else{
+                result(null, res)
+            }
+        })
+    return 200;
 }
 
 

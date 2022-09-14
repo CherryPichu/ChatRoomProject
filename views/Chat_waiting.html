@@ -1,3 +1,8 @@
+<script>
+	function test () {
+		alert("버튼 클릭")
+	}
+	</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,16 +41,12 @@
 
 		<div id="foot">
 			{% if not client %}
-			<div class="input-message_Class">
-				<svg class="box">
-					<rect class="box_Class" rx="17" ry="17" x="0" y="0" width="109" height="36">
-					</rect>
-				</svg>
+			<a class="login-button" href="/login">
 				<div class="Text_Class">
 					<span>로그인</span>
 				</div>
-			</div>
-			<button type="button" class="join_Class" onclick="alert('Hello World!')">
+			</a>
+			<a class="join_Class" onclick="alert('Hello World!')">
 				<svg class="box_r">
 					<rect class="box_r_Class" rx="17" ry="17" x="0" y="0" width="109" height="36">
 					</rect>
@@ -53,20 +54,21 @@
 				<div class="Text_s_Class">
 					<span>회원가입</span>
 				</div>
-			</button>
+			</a>
 			{% else %}
-			<div class="input-message_Class">
-				<svg class="box">
-					<rect class="box_Class" rx="17" ry="17" x="0" y="0" width="218" height="36">
-					</rect>
-				</svg>
-				<div class="Text_Class">
-					<span>{{ client.nick }}		님 안녕하세요!</span>
+				<a class="input-message_Class"  onclick="test()">
+					<div class="Text_Class">
+						<span>{{ client.nick }}		님 안녕하세요!</span>
+					</div>
+				</a>
+
+				<div id="Logout_button" class="box_Class">
+					<a class="Text_Logout_Class" href="/auth/logout">
+						<p>로그아웃</p>
+					</a>
 				</div>
-			</div>
 			{% endif %}
 			
-
 		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
