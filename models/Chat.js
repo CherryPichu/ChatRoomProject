@@ -30,25 +30,51 @@ const Chat = function (chat) {
     this.user = chat.user
     this.chat = chat.chat
     this.gif = chat.gif
+
     // this.createAt = chat.createAt
 }
 
-Chat.create = (newChat, result) => {
+
+MakeWhereWord = (objdb) => {
+    query = " WHERE "
+    let cnt = 0;
+    for(const id in objdb ){ // 객체의 propery 를 모두 뱉어냄. ()
+        
+
+        if(objdb[id] != null){
+            if(cnt == 0 ) { // 첫번째는 AND 를 안붙임.
+                cnt += 1;
+                query += '`'+id + '`' + " = " +'"'+ objdb[id]+ '"'; // curl + shift + L : 같은 단어 드래그
+            }else{
+                query += " AND "+ '`'+id + '`' + " = " + '"'+objdb[id] + '"';
+            }
+            
+
+        }
+            
+    }
+    return query
+}
+
+
+Chat.create = (newChat, result) => { // export {create, Chat(객체), findByChat ... } 이런식으로 됨. findByChat 에서 this를 써도 Chat 객체의 변수에 접근할 수 없음. <-- 아닐 수 있음 검증이 필요함!! 22-09-16
     sql.query('insert into Chat SET ? ', newChat, (err, res) => {
         if(err){
             console.log("error : ", err)
             result(err, null)
             return;
         }
+        result(null, res)
         // console.log("Created Chat: ", {id : res.insertId, email : res.email, newClient})
     })
-    return 200;
 }
 
 
 
-Chat.findByID = (chatID, result) => {
-    sql.query("SELECT * FROM Chat Where id = ?", [chatID], (err,res) => {
+Chat.findByChat = (byChat, result) => {
+    let query = "SELECT * FROM Chat"
+    query += MakeWhereWord(byChat)
+    sql.query(query, (err,res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null)
@@ -62,7 +88,6 @@ Chat.findByID = (chatID, result) => {
         
         result({kind : "not_found"}, null);
     })
-    return 200;
 }
 
 Chat.getAll = result => {
@@ -76,7 +101,6 @@ Chat.getAll = result => {
         // console.log("chat : ", res);
         result(null, res)
     })
-    return 200;
 }
 
 
@@ -97,13 +121,15 @@ Chat.updateByID = (id, chat, result) => {
             }
 
             // console.log("update chat : ", {id :id, chat})
-            result.null, {id: id, chat}
+            result(null, res)
         })
         return 200;
     }
 
-Chat.remove = (byid, result) => {
-    sql.promise().query('DELETE FROM Chat WHERE id = ?', [byid], (err, res) => {
+Chat.remove = (byChat, result) => {
+    let query = "DELETE FROM Chat "
+    query += MakeWhereWord(byChat)
+    sql.query(query, (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);

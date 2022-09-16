@@ -22,26 +22,67 @@ describe("Client models", () => {
         deletedAt : null,
     })
 
-    const result = (err, data) => { return err }
-    test("Client 테이블의 데이터를 모두 데이터를 가져옵니다. Client.getAll();", async () => {
-        expect( await client.getAll(result) ).not.toEqual(500);
-    })
 
-    test("Client 테이블에 새로운 유저를 추가합니다. Client.create", () => {
-
-        expect(client.create(newclient, result) ).toEqual(200)
-    })
-
-    test("Client 테이블에 id값을 이용해 값을 찾음. findByClient", () => {
-        const byclient = new client ({
-            email : "uskawjdu@gmail.com",
+    test("Client 테이블의 데이터를 모두 데이터를 가져옵니다. Client.getAll();", (done) => {
+            //https://jestjs.io/docs/asynchronous  내용 중 Callbacks 부분에서.
+            // done 함수를 이용해 비동기 함수 테스트!
+            client.getAll((err, data) => { 
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
         })
-        expect( client.findByClient(byclient, result) ).toEqual(200)
-        
     })
 
-    test("Client 테이블에 행을 제거. ", async () => {
-        expect(await client.remove(newclient.email, result) ).toEqual(200)
+    test("Client 테이블에 새로운 유저를 추가합니다. Client.create", (done) => {
+
+        client.create(newclient, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
+    })
+
+    test("Client 정보를 이용해 데이터를 가져옵니다.", (done) => {
+        client.findByClient(newclient, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
+    })
+
+
+    //delete test시 조심할 점!
+    // 실수하면 전체 데이터가 지워지므로 반드시 dev DB에다 테스트!
+    test("Client 테이블에 행을 제거. ", (done) => {
+        client.remove(newclient, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
     })
     
 })

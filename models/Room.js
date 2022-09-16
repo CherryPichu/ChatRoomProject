@@ -36,6 +36,26 @@ const Room = function (room) {
     this.state = room.state;
 }
 
+MakeWhereWord = (objdb) => {
+    query = " WHERE "
+    let cnt = 0;
+    for(const id in objdb ){ // 객체의 propery 를 모두 뱉어냄. ()
+        
+
+        if(objdb[id] != null){
+            if(cnt == 0 ) { // 첫번째는 AND 를 안붙임.
+                cnt += 1;
+                query += '`'+id + '`' + " = " +'"'+ objdb[id]+ '"'; // curl + shift + L : 같은 단어 드래그
+            }else{
+                query += " AND "+ '`'+id + '`' + " = " + '"'+objdb[id] + '"';
+            }
+            
+
+        }
+            
+    }
+    return query
+}
 
 
 
@@ -46,15 +66,18 @@ Room.create = (newRoom, result) => {
             result(err, null)
             return;
         }
+        result(null, res)
         // console.log("Created Room: ", {id : res.insertId, email : res.email, newRoom})
     })
-    return 200;
+
 }
 
 
 
-Room.findByTitle = (roomtitle, result) => {
-    sql.query("SELECT * FROM Room Where title = ?", [roomtitle], (err,res) => {
+Room.findByRoom = (byRoom, result) => {
+    let query = "SELECT * FROM Room "
+    query += MakeWhereWord(byRoom)
+    sql.query(query ,(err,res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null)
@@ -68,43 +91,45 @@ Room.findByTitle = (roomtitle, result) => {
         
         result({kind : "not_found"}, null);
     })
-    return 200;
+
 }
 
-Room.getAll = async () => {
-    try {
-        return await sql.promise().query("SELECT * FROM Room")
-    }catch(err){
-        return 500
-    }
+Room.getAll = (result) => {
+    sql.query("SELECT * FROM Room", (err, res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null)
+            return;
+        }
+        result(null, res)
+    })
 
 }
 
 
 Room.updateByTitle = (title, room, result) => {
 
-    // id : 
-    // chat : chat 객체를 던져줌
+    
     sql.query("UPDATE Room SET ? WHERE title = ?", [room, title],
         (err, res) => {
             if(err){
                 console.log("error : ", err)
                 result(err, null)
-                return;
             }
             if(res.affectedRows == 0){
                 result({kind : "not_found"}, null);
-                return;
             }
 
             // console.log("update Room : ", {id :id, chat})
-            result.null, {id: id, room}
-        })
-        return 200;
-    }
+            result(null, res)
+    })
+}
 
-Room.remove = (bytitle, result) => {
-    sql.promise().query('DELETE FROM Room WHERE title = ?', [bytitle], (err, res) => {
+Room.remove = (byRoom, result) => {
+
+    let query = "DELETE FROM Room "
+    query += MakeWhereWord(byRoom)
+    sql.query(query,  (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -118,7 +143,6 @@ Room.remove = (bytitle, result) => {
         // console.log("deleted cutomer with email : ", byemail);
         result(null, res);
     })
-    return 200;       
 }
 
 module.exports = Room

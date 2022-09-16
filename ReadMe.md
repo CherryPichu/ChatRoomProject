@@ -44,6 +44,10 @@
 - express-session : session 관리 라이브러리
 - cookie-parser : 쿠키 관리 라이브러리
 - body-parser : post 요청의 매개변수를 받기 위해 사용
+- passport : 로그인 처리를 도와주는 라이브러리 ( 로그인 전략 )
+- passport-local :  로컬 (mysql) 로그인 전략이 구현된 라이브러리
+- passport-kakao : 카카오 로그인 전략이 구현된 라이브러리
+- bcrypt : 비밀번호 암호화에 필요한 라이브러리
 
 
 

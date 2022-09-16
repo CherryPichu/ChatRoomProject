@@ -19,25 +19,85 @@ describe("Room models", () => {
         password : 1234,
     })
 
-    const result = (err, data) => { return err }
-    test("Room 테이블의 데이터를 모두 데이터를 가져옵니다. Room.getAll();", async () => {
-        
-        
-        expect( Room.getAll() ).not.toEqual(500);
+    test("Room 테이블의 데이터를 모두 데이터를 가져옵니다. Room.getAll();", (done) => {
+        Room.getAll((err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
     })
 
-    test("Room 테이블에 새로운 유저를 추가합니다. Room.create", () => {
+    test("Room 테이블에 새로운 유저를 추가합니다. Room.create", (done) => {
 
-        expect(Room.create(newRoom, result) ).toEqual(200)
+        Room.create(newRoom, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
     })
 
-    test("Room 테이블에 title값을 이용해 값을 찾음. findByTitle", () => {
-        expect( Room.findByTitle(newRoom.title, result) ).toEqual(200)
+    test("Room 값을 찾음. findByRoom", (done) => {
+        Room.findByRoom(newRoom, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
         
     })
 
-    test("Room 테이블에 행을 제거. ", async () => {
-        expect(await Room.remove(newRoom.title, result) ).toEqual(200)
+
+    const newRoom2 = new Room({
+        title : "test new Room",
+        max : 10,
+        owner : 1,
+        password : 1234,
+    })
+    test("Room 값을 찾음. findByRoom", (done) => {
+        Room.updateByTitle(newRoom.title, newRoom2, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
+        
+    })
+
+
+    test("Room 테이블에 행을 제거. ", (done) => {
+        Room.remove(newRoom2, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
     })
     
 })

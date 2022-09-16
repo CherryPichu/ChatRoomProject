@@ -13,6 +13,10 @@ const app = express();
 const routerindex = require('./routes/index.js');
 const routerauth = require('./routes/auth.js')
 const swaggerJSDoc = require('swagger-jsdoc');
+const passport = require('passport')
+const passportConfig = require('./passport')
+passportConfig(); // 로그인 전략 라이브러리 사용
+
 
 const session = require('express-session')
 app.use(session({
@@ -24,11 +28,16 @@ app.use(session({
         secure : false,
     },
 }))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json());
 
 const cookieParser = require('cookie-parser')
 app.use(cookieParser(process.env.COOKIE_SECRET))
+
 
 const nunjucks = require('nunjucks')
 app.set('view engine', 'html')

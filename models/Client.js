@@ -43,15 +43,45 @@ const Client = function (client) { // 생성자
         this.colorHash = client.colorHash;
         this.snsid = client.snsid;
         this.deletedAt = client.deletedAt;
+            
     // this.createAt = client.createAt;
     // this.updatedAt = client.updatedAt;
 }
-Client.end = sql.end;
+
+// Client.prototype.getClient =  ()  => {
+    
+//     return { // id: id, email : email 으로 js가 자동으로 붙여줌.
+//         id,email,password,nick,colorHash,snsid,deletedAt,
+//     }
+// }
+
+Client.end = sql.end; // 왜 만들었지... 기억 안남..
 /* 참고
 https://1-day-1-coding.tistory.com/51
 CURD MODEL 만들기
  
 */
+
+MakeWhereWord = (byclient) => {
+    query = " WHERE "
+    let cnt = 0;
+    for(const id in byclient ){
+        
+
+        if(byclient[id] != null){
+            if(cnt == 0 ) { // 첫번째는 AND 를 안붙임.
+                cnt += 1;
+                query += '`'+id + '`' + " = " +'"'+ byclient[id]+ '"';
+            }else{
+                query += " AND "+ '`'+id + '`' + " = " + '"'+byclient[id] + '"';
+            }
+            
+
+        }
+            
+    }
+    return query
+}
 Client.create  = (newClient, result) =>{
     sql.query('insert into Client SET ? ', newClient, (err, res) => {
         if(err){
@@ -59,44 +89,57 @@ Client.create  = (newClient, result) =>{
             result(err, null)
             return;
         }
+
+        result(null, res)
         // console.log("Created Client : ", {id : res.insertId, email : res.email, newClient})
     })
-    return 200;
 }
 
-
-Client.findByIdandPassword = (byclient, result) => {
-
-    sql.query("SELECT * FROM Client Where email = ? AND password = ?", 
-        [byclient.email, byclient.password],(err, res) =>{
-            if(err){
-                console.log('error : ', err);
-                result(err, null)
-            }else{
-                result(null, res)
-            }
-        })
-    return 200;
-}
-
-
-// 09-12 
-Client.getAll = async () => {
+Client.findByClient = (byclient, result) => {
     
-    try{
-        return await sql.promise().query("SELECT * FROM Client")
-    }catch(err){
-        console.err(err)
-        return 500;
-    }
-    // .catch((err, res) => {
-    //     if(err){
-    //         console.log("error : ", err);
-    //         result(err, null)
-    //         return;
-    //     }
-    //     result(null, res)
-    // })
+    Client.getAll((err, res) => {
+        if(err){
+            console.error(err)
+            result(err, null)
+        }
+        if(res){
+            console.log("getAll 입니다!");
+        }
+
+        let query = "SELECT * FROM Client ";
+        query = query + MakeWhereWord(byclient) // Where 문을 조립
+        console.log(query) // 
+        result(null ,sql.query(query)) // 결과를 data에 넣어줌
+
+        
+    })
+
+
+
+    // sql.query("SELECT * FROM Client Where email = ? AND password = ?", 
+    //     [byclient.email, byclient.password],(err, res) =>{
+    //         if(err){
+    //             console.log('error : ', err);
+    //             result(err, null)
+    //         }else{
+    //             result(null, res)
+    //         }
+    //     })
+    return 200;
+}
+
+
+Client.getAll = (result) => {
+    
+    sql.query("SELECT * FROM Client" , ((err, res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null)
+            return;
+        }
+        result(null, res)
+    }))
+    return 200;
 }
 
 Client.updateByID = (id, client, result) => {
@@ -121,12 +164,13 @@ Client.updateByID = (id, client, result) => {
     }
 
 
-Client.remove = async (byemail, result) =>  {
+Client.remove = (byclient, result) =>  {
     // sql.query('UPDATE client SET deletedAt = now() WHERE id = ?', id, (err, res) => {
         // console.log(byclient)
-    let res = ''
-    try{
-        res = await sql.promise().query('DELETE FROM Client WHERE email = ?', [byemail], (err, res) => {
+    let query = "UPDATE Client SET deletedAt = now() "
+    query = query + MakeWhereWord(byclient)
+    console.log(query)
+    sql.query(query, (err, res) => {
             if(err){
                 console.log("error : ", err);
                 result(err, null);
@@ -137,25 +181,14 @@ Client.remove = async (byemail, result) =>  {
                 result({kind:"not_found"}, null)
                 return;
             }
-            // console.log("deleted cutomer with email : ", byemail);
+            // console.log("deleted client :  : ", byclient);
             result(null, res);
-        })
-    }catch(err){
-        console.log("error : ", err)
-        return 500;
-    }
-    console.log(res[0].affectedRows)
-    if (res[0].affectedRows > 0)
-        return 200;
-    else{
-        return 500;
-    }
-        
+    })
+}
 
 /*
 You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://www.npmjs.com/package/mysql2#using-promise-wrapper, or the mysql2 documentation at https://github.com/sidorares/node-mysql2/tree/master/documentation/Promise-Wrapper.md
 */
-}
 
 
 module.exports = Client;

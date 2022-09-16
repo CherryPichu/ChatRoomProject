@@ -13,39 +13,90 @@ const generateRandomString = (num) => {
 
 describe("Chat model", () => {
     const newChat = new Chat({
-        id : 10,
-        room : "there",
+        id : 1,
+        room : 'there',
         user : 2,
-        chat : "Hello everyone",
+        chat : generateRandomString(20),
         gif : null,
     })
     
-    test("Chat 테이블에 새로운 유저를 추가합니다. Chat.create", () => {
+    test("Chat 테이블에 새로운 유저를 추가합니다. Chat.create", (done) => {
 
-        expect( Chat.create(newChat, result) ).toEqual(200)
-    })
-    const result = (err, data) => { return err }
-    test("Chat 테이블의 데이터를 모두 데이터를 가져옵니다. Chat.getAll();", () => {
-        expect( Chat.getAll(result) ).toEqual(200);
-    })
-
-    test("Chat 테이블 Chat.updateByID();", () => {
-        const newchat2 = new Chat({
-            id : 10,
-            room : "there",
-            user : 1,
-            chat : "yum, hi!",
-            gif : null,
+        Chat.create(newChat, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }  
         })
-        expect( Chat.updateByID(newChat.id, newchat2 , result) ).toEqual(200);
     })
-
-    test("Chat 테이블에 id값을 이용해 값을 찾음. findByClient", () => {
-        expect( Chat.findByID(newChat.id, result) ).toEqual(200)
+    test("Chat 테이블의 데이터를 모두 데이터를 가져옵니다. Chat.getAll();", (done) => {
+        Chat.getAll((err, data) => { 
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
+    })
+    test("Chat 테이블에 id값을 이용해 값을 찾음. findByClient", (done) => {
+        Chat.findByChat(newChat ,  (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
         
     })
 
-    test("Chat 테이블에 행을 제거. ", () => {
-        expect(Chat.remove(newChat.id, result) ).toEqual(200)
+    const newchat2 = new Chat({
+        id : 10,
+        room : "there",
+        user : 1,
+        chat : "yum, hi!",
+        gif : null,
+    })
+    test("Chat 테이블 Chat.updateByID();", (done) => {
+
+        Chat.updateByID(newChat.id, newchat2 , (err, data) => { 
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        });
+    })
+
+
+
+    test("Chat 테이블에 행을 제거. ", (done) => {  // upddate 된 객체로 삭제
+        Chat.remove( newchat2, (err, data) => {
+            if(err){
+                done(err)
+                console.error(err)
+                return
+            }
+            if(data){
+                // console.log(data)
+                done()
+            }
+        })
     })
 });
