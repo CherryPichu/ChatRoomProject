@@ -5,7 +5,7 @@ const Roomdb = require('./models/Room')
 
 module.exports = (server, app, sessionMiddleware) => {
     const io = ScoketIO(server, { path : "/socket.io"});
-    app.set('od', io);
+    app.set('io', io);
     const waittingRoom = io.of('/wattingRoom')
     const chatRoom = io.of('/chatRoom')
     
@@ -19,13 +19,19 @@ module.exports = (server, app, sessionMiddleware) => {
         socket.on('disconnect', () => {
             console.log("room 네임스페이스 접속 해제")
         })
-        socket.on('get room', async () => {
-            const Rooms = await Roomdb.getAll();
+        socket.on('get room', () => {
+            Roomdb.getAll((err, data) => {
+                if(err){
+                    console.error(err);
+                    return;
+                } 
+                for(const i of data){
+                    // console.log(i)
+                    io.of('/wattingRoom').emit('newRoom', i)
+                }
+            });
             
-            for(const i of Rooms[0]){
-                // console.log(i)
-                io.of('/wattingRoom').emit('newRoom', i)
-            }
+
 
         })
 

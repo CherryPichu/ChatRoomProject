@@ -121,6 +121,7 @@ Room.updateByTitle = (title, room, result) => {
             }
 
             // console.log("update Room : ", {id :id, chat})
+            console.log(res)
             result(null, res)
     })
 }

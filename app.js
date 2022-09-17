@@ -5,12 +5,16 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 dotenv.config();
 
+
+
 const bodyParser =  require('body-parser')
 
 const webSocket = require('./socket')
 const path = require('path');
 const app = express();
-const routerindex = require('./routes/index.js');
+
+
+const routerpage = require('./routes/page.js');
 const routerauth = require('./routes/auth.js')
 const swaggerJSDoc = require('swagger-jsdoc');
 const passport = require('passport')
@@ -64,7 +68,7 @@ app.use( async (req, res, next) => { // 유저 정보를 꺼내와서 저장.
 })
 
 app.use('/auth', routerauth)
-app.use('/', routerindex)
+app.use('/', routerpage)
 // app.get('/', (req, res, next) => {
 //     res.sendFile(path.join(__dirname, './views', 'Chat_waiting.html'))
 // })

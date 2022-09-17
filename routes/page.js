@@ -6,7 +6,10 @@ const Client = require('../models/Client.js')
 
 router.get('/', (req, res, next) => {
     
-    res.render('Chat_waiting', { client : req.session.client })
+    // post : req.body.이름
+    // get : req.query.이름
+    res.render('Chat_waiting', { client : req.user, errorMessage : req.query.loginError }) // pasport 로 얻는 세션은 req.user 에 저장됨.
+    // 매법 접속때 마다 passport는 db에 데이터를 요청해 받아와서 메모리를 절약할 수 있음.
 })
 
 router.get('/ChatRoom', (req, res, next) => {
@@ -16,6 +19,11 @@ router.get('/ChatRoom', (req, res, next) => {
 router.get("/login", (req, res, next) => {
     res.render('ChatLogin.html')
 })
+
+router.get("/join", (req, res, next) => {
+    res.render('Chat_join.html')
+})
+
 
 module.exports = router
 

@@ -97,35 +97,19 @@ Client.create  = (newClient, result) =>{
 
 Client.findByClient = (byclient, result) => {
     
-    Client.getAll((err, res) => {
+    let query = "SELECT * FROM Client ";
+    query = query + MakeWhereWord(byclient) // Where 문을 조립
+    // console.log(query) // 
+    sql.query(query, (err, res) => {
         if(err){
-            console.error(err)
+            console.log("error : ", err);
             result(err, null)
+            return;
         }
-        if(res){
-            console.log("getAll 입니다!");
-        }
-
-        let query = "SELECT * FROM Client ";
-        query = query + MakeWhereWord(byclient) // Where 문을 조립
-        console.log(query) // 
-        result(null ,sql.query(query)) // 결과를 data에 넣어줌
-
-        
+        result(null , res[0]) // 찾은 유저 정보만 던져줌.
     })
+    
 
-
-
-    // sql.query("SELECT * FROM Client Where email = ? AND password = ?", 
-    //     [byclient.email, byclient.password],(err, res) =>{
-    //         if(err){
-    //             console.log('error : ', err);
-    //             result(err, null)
-    //         }else{
-    //             result(null, res)
-    //         }
-    //     })
-    return 200;
 }
 
 
@@ -158,7 +142,8 @@ Client.updateByID = (id, client, result) => {
             }
 
             console.log("update Client : ", {id :id, client})
-            result.null, {id: id, client}
+            // result.null, {id: id, client}
+            result(null, res)
         })
         return 200;
     }

@@ -1,41 +1,17 @@
-const express = require('express')
-const router = express.Router();
 const path = require('path')
+const router = require('express').Router();
+const passport = require('passport')
 const clientdb = require('../models/Client')
+const brcypt = require('bcrypt')
 
 
+const {AuthLogin, AuthLogout, AuthJoin} = require("../controllers/auth.controller")
 
-router.post('/login', (req, res, next) => {
-    // 클로저에 대한 고찰 : https://haesoo9410.tistory.com/342
-    if(req.body.id && req.body.password){
-        const loginInfo = new clientdb({
-            email : req.body.id,
-            password : req.body.password
-        })
-        
-        clientdb.findByIdandPassword(loginInfo, (err, response) => { 
-            if(err){
-                onsole.error("회원 정보 없음")
-                console.error(err);
-                res.redirect('/') // 오류페이지
-            }
-            req.session.client = response[0]
-            // console.log(req.session.client)
-            res.redirect('/')
-        })
-        console.log(req.session.client)
-        
-        
-    }else{
-        console.error('id와 password가 없습니다.')
-    }
-})
+router.post('/join', AuthJoin)
 
-router.get('/logout', (req, res, next) => {
-    req.session.client = null;
-    res.redirect('/')
-})
+router.post('/login', AuthLogin)
+
+router.get('/logout', AuthLogout) // get 으로 logout 하는 것은 보안적 위협이 있다. passport document logout 확인
+
+
 module.exports = router
-
-
-

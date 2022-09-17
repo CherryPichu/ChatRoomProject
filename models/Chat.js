@@ -82,7 +82,7 @@ Chat.findByChat = (byChat, result) => {
         }
         if(res.length) {
             // console.log("found chat : ", res[0])
-            result(null, res[0])
+            result(null, res)
             return;
         }
         
@@ -97,11 +97,26 @@ Chat.getAll = result => {
             result(err, null)
             return;
         }
+        
 
         // console.log("chat : ", res);
         result(null, res)
     })
 }
+/*
+ data : 
+ [
+  {
+    title: 'there',
+    inPeople: 1,
+    max: 5,
+    owner: 2,
+    password: '1234',
+    createAt: 2022-09-06T08:53:17.000Z,
+    state: 'Public'
+  }
+]
+*/
 
 
 Chat.updateByID = (id, chat, result) => {

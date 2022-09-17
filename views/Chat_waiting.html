@@ -46,7 +46,7 @@
 					<span>로그인</span>
 				</div>
 			</a>
-			<a class="join_Class" onclick="alert('Hello World!')">
+			<a class="join_Class"  href="/join">
 				<svg class="box_r">
 					<rect class="box_r_Class" rx="17" ry="17" x="0" y="0" width="109" height="36">
 					</rect>
@@ -63,13 +63,17 @@
 				</a>
 
 				<div id="Logout_button" class="box_Class">
-					<a class="Text_Logout_Class" href="/auth/logout">
-						<p>로그아웃</p>
-					</a>
+						<a class="Text_Logout_Class" href="/auth/logout">
+							<p>로그아웃</p>
+						</a>
 				</div>
 			{% endif %}
 			
 		</div>
+
+		{% if errorMessage %}
+			<script> alert( `{{ errorMessage }}` ) </script>
+		{% endif %}
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
