@@ -81,6 +81,8 @@
 				path : '/socket.io'
 			})
 
+			
+
 			socket.on('newRoom', (data) => {
 				const room_element = document.createElement('div');
 				room_element.className = 'room-element'
@@ -103,6 +105,9 @@
 				room_element_people.appendChild(room_element_people_text)
 				room_element_people_text.appendChild(room_element_people_text_span)
 				room_element.appendChild(room_element_people)
+				room_element_people.onclick = () => {
+					window.location.href= "/ChatRoom?roomid="+data.title
+				}
 
 				const room_element_type = document.createElement('div');
 				const Text__Class = document.createElement('div');

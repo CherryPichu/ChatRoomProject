@@ -1,5 +1,6 @@
 const sql = require('./db.config.js')
 
+const DBNAME = "Chat"
 
 /**
  * @swagger
@@ -30,12 +31,13 @@ const Chat = function (chat) {
     this.user = chat.user
     this.chat = chat.chat
     this.gif = chat.gif
+    this.nick = chat.nick
 
     // this.createAt = chat.createAt
 }
 
 
-MakeWhereWord = (objdb) => {
+function MakeWhereWord (objdb){
     query = " WHERE "
     let cnt = 0;
     for(const id in objdb ){ // 객체의 propery 를 모두 뱉어냄. ()
@@ -71,10 +73,12 @@ Chat.create = (newChat, result) => { // export {create, Chat(객체), findByChat
 
 
 
-Chat.findByChat = (byChat, result) => {
+Chat.findByChat = (byChat, result ) => {
+
     let query = "SELECT * FROM Chat"
+    
     query += MakeWhereWord(byChat)
-    sql.query(query, (err,res) => {
+    sql.query(query, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null)
@@ -90,17 +94,74 @@ Chat.findByChat = (byChat, result) => {
     })
 }
 
-Chat.getAll = result => {
-    sql.query("SELECT * FROM Chat", (err, res) => {
+Chat.loadChat = (byChat, result, num ) => {
+
+    let query = "SELECT * FROM Chat"
+    
+    query += MakeWhereWord(byChat)
+    query += " ORDER BY createAt LIMIT " + num
+    sql.query(query, (err, res) => {
+        if(err) {
+            console.log("error: ", err);
+            result(err, null)
+            return;
+        }
+        if(res.length) {
+            // console.log("found chat : ", res[0])
+            result(null, res)
+            return;
+        }
+        
+        result({kind : "not_found"}, null);
+    })
+}
+
+
+function findByCondition (result, query,  params = { direction : ["", ""], }) {
+    const doing = query.split(" ")[0] //ex) select
+    // console.log("doing : " + doing)
+    const direction = params.direction
+    const startPoint = direction[0]
+    const number = direction[1]
+
+    //SELECT * FROM Chat ORDER BY createAt LIMIT 3
+    if(startPoint != "ASC" && startPoint != "DESC" && startPoint != ""){
+        result("ASC 또는 DESC에 해당하는 값을 넣으셔야 합니다." , null)
+    }else{
+        if(startPoint != "")
+            query = doing + " * FROM " + DBNAME +" ORDER BY createAt " + startPoint +" LIMIT " + number
+    }
+    return query
+}
+Chat.getAll = (result, params = { direction : ["", ""], } ) => { // ex) {direction : ["Top", "3"]}
+    
+
+
+    let query = "SELECT * FROM Chat"
+    query = findByCondition(result, query, params)
+
+    sql.query(query, (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null)
             return;
         }
-        
 
         // console.log("chat : ", res);
         result(null, res)
+        /*
+        [
+            {
+            id: 1,
+            room: 'there',
+            user: 2,
+            chat: 'ibNpSjjaqnPnluzIrxGf',
+            gif: null,
+            createAt: 2022-09-30T02:25:25.000Z
+            }
+        ]
+
+        */
     })
 }
 /*
@@ -160,6 +221,8 @@ Chat.remove = (byChat, result) => {
     })
     return 200;       
 }
+
+
 
 module.exports = Chat
 

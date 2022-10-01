@@ -141,7 +141,7 @@ Client.updateByID = (id, client, result) => {
                 return;
             }
 
-            console.log("update Client : ", {id :id, client})
+            // console.log("update Client : ", {id :id, client})
             // result.null, {id: id, client}
             result(null, res)
         })
@@ -154,7 +154,7 @@ Client.remove = (byclient, result) =>  {
         // console.log(byclient)
     let query = "UPDATE Client SET deletedAt = now() "
     query = query + MakeWhereWord(byclient)
-    console.log(query)
+    // console.log(query)
     sql.query(query, (err, res) => {
             if(err){
                 console.log("error : ", err);

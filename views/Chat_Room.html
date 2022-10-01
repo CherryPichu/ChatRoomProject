@@ -10,83 +10,147 @@
 </head>
 <body>
 <div id="Chat-Room" class="Chat-Room_Class">
-	<div class="head-title_Class">
-		<svg class="head-box">
-			<rect class="head-box_Class" rx="0" ry="0" x="0" y="0" width="400" height="40">
-			</rect>
-		</svg>
-		<div class="Chat-name-number_Class">
-			<div class="Room_name_Class">
-				<span>채팅방 - </span>
+	
+
+		<div class="head-title_Class">
+			<div class="Chat-name-number_Class">
+				<div class="Room_name_Class">
+					<span>채팅방 - </span>
+				</div>
+				<div class="Room_number_Class">
+					<span>1</span>
+				</div>
 			</div>
-			<div class="Room_number_Class">
-				<span>1</span>
+		</div>
+
+	<div id="Chat-Room-Body">
+
+		<div class="message_Class">
+			<div class="clinet_Class">
+				<span>client-1</span>
+			</div>
+
+			<div class="box_t_Class" >
+				<span class="conlogin-div">
+					안녕하세요.
+				</span>
 			</div>
 		</div>
+
+
+		<!-- 여백 -->
+		<div class="message_Class" id="body-padding"></div> 
+		
 	</div>
-	<div class="input-message_Class">
-		<svg class="box">
-			<rect class="box_Class" rx="17" ry="17" x="0" y="0" width="344" height="36">
-			</rect>
-		</svg>
-		<div class="Press_Enter_for_send_message_Class">
-			<span>Press Enter for send message</span>
+
+	<div id="Chat-Room-foot">
+		<input class="input-message_Class" placeholder="Press Enter for send message" onkeyup="if(window.event.keyCode==13){EnterChat( this.value )}" />
+
+		<div class="attach-button_Class">
+			<svg class="box_p">
+				<rect class="box_p_Class" rx="11" ry="11" x="0" y="0" width="36" height="36">
+				</rect>
+			</svg>
+			<svg class="line" viewBox="0 0 26 2">
+				<path class="line_Class" d="M 0 0 L 26 0">
+				</path>
+			</svg>
+			<svg class="line_r" viewBox="0 0 2 26">
+				<path class="line_r_Class" d="M 0 26 L 0 0">
+				</path>
+			</svg>
 		</div>
 	</div>
-	<div class="attach-button_Class">
-		<svg class="box_p">
-			<rect class="box_p_Class" rx="11" ry="11" x="0" y="0" width="36" height="36">
-			</rect>
-		</svg>
-		<svg class="line" viewBox="0 0 26 2">
-			<path class="line_Class" d="M 0 0 L 26 0">
-			</path>
-		</svg>
-		<svg class="line_r" viewBox="0 0 2 26">
-			<path class="line_r_Class" d="M 0 26 L 0 0">
-			</path>
-		</svg>
-	</div>
-	<div class="message_Class">
-		<svg class="box_t">
-			<rect class="box_t_Class" rx="14" ry="14" x="0" y="0" width="128" height="35">
-			</rect>
-		</svg>
-		<div class="conlogin-div">
-			<span>안녕하세요.</span>
-		</div>
-		<div class="clinet_Class">
-			<span>client-1</span>
-		</div>
-	</div>
-<!--	<div class="message_w_Class">-->
-<!--		<svg class="box_x">-->
-<!--			<rect class="box_x_Class" rx="14" ry="14" x="0" y="0" width="128" height="35">-->
-<!--			</rect>-->
-<!--		</svg>-->
-<!--		<div class="context_y_Class">-->
-<!--			<span>안녕하세요.</span>-->
-<!--		</div>-->
-<!--		<div class="clinet_z_Class">-->
-<!--			<span>client-2</span>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--	<div class="message__Class">-->
-<!--		<svg class="box_">-->
-<!--			<rect class="box__Class" rx="14" ry="14" x="0" y="0" width="260" height="35">-->
-<!--			</rect>-->
-<!--		</svg>-->
-<!--		<div class="context__Class">-->
-<!--			<span>안녕친구? 나는 namjung이라고해</span>-->
-<!--		</div>-->
-<!--		<div class="client_Class">-->
-<!--			<span>mine</span>-->
-<!--		</div>-->
-<!--	</div>-->
-	<svg class="n_1">
-		<rect class="n_1_Class" rx="0" ry="0" x="0" y="0" width="400" height="800">
-		</rect>
-	</svg>
+</div>
 </div>
 </body>
 </html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+		const socket = io.connect('http://uskawjdu.iptime.org:8082/chatRoom', {
+				path : '/socket.io'
+		})
+
+
+
+
+		function makeChat(name, content) {
+			const message_Class = document.createElement('div');
+			message_Class.className = 'message_Class'
+			const Client_Class = document.createElement('div')
+			Client_Class.className = "client_Class";
+			const span = document.createElement('span');
+			span.textContent = `${name}`;
+			Client_Class.appendChild(span);
+
+			const box_t_Class = document.createElement('div');
+			box_t_Class.className = "box_t_Class"
+			const conlogin_div= document.createElement('span');
+			box_t_Class.appendChild(conlogin_div);
+			conlogin_div.textContent = `${content}`;
+			conlogin_div.className = "conlogin-div";
+
+			message_Class.appendChild(Client_Class);
+			message_Class.appendChild(box_t_Class);
+
+			const parent = document.querySelector('#Chat-Room-Body');
+			const before_element = document.querySelector("#body-padding");
+			parent.insertBefore(message_Class, before_element);
+			// console.log("join 됨");
+		}
+		
+
+		socket.on('join', (data)=> {
+
+			makeChat("System", data.chat)
+			// console.log(data)
+
+		})
+
+		socket.on("getChatAll", (data) => {
+			console.log(data)
+			for(const i of data.chats) {
+				makeChat(i.nick, i.chat)
+			}
+
+			
+			/*
+                      data {
+                        fieldCount: 0,
+                        affectedRows: 1,
+                        insertId: 0,
+                        info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+                        serverStatus: 2,
+                        warningStatus: 0,
+                        changedRows: 1
+                    }
+			*/
+
+			
+		})
+
+		socket.on("post Chat", (data) => {
+			makeChat(data.user, data.chat)
+		})
+
+		function EnterChat(data) {
+			socket.emit("post Chat", {content : data })
+		}
+
+
+		
+</script>
+
+<!-- <div class="message_Class">
+	<div class="clinet_Class">
+		<span>client-1</span>
+	</div>
+
+	<div class="box_t_Class" >
+		<span class="conlogin-div">
+			안녕하세요.
+		</span>
+	</div>
+</div> -->

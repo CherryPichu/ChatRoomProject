@@ -13,11 +13,12 @@ const generateRandomString = (num) => {
 
 describe("Chat model", () => {
     const newChat = new Chat({
-        id : 1,
+        id : 2,
         room : 'there',
         user : 2,
         chat : generateRandomString(20),
         gif : null,
+        nick : "Cherry",
     })
     
     test("Chat 테이블에 새로운 유저를 추가합니다. Chat.create", (done) => {
@@ -45,7 +46,7 @@ describe("Chat model", () => {
                 // console.log(data)
                 done()
             }
-        })
+        }, {direction : ["DESC", "3"]})
     })
     test("Chat 테이블에 id값을 이용해 값을 찾음. findByClient", (done) => {
         Chat.findByChat(newChat ,  (err, data) => {
@@ -63,7 +64,7 @@ describe("Chat model", () => {
     })
 
     const newchat2 = new Chat({
-        id : 10,
+        id : 2,
         room : "there",
         user : 1,
         chat : "yum, hi!",

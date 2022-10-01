@@ -50,7 +50,8 @@
 - passport-local :  로컬 (mysql) 로그인 전략이 구현된 라이브러리
 - passport-kakao : 카카오 로그인 전략이 구현된 라이브러리
 - bcrypt : 비밀번호 암호화에 필요한 라이브러리
-
+- express-mysql-session : 세션을 mysql에 저장하기 위한 라이브러리
+  - 참고 : https://jamong-icetea.tistory.com/143
 
 
 #### 참고 사이트
@@ -73,5 +74,5 @@
 - 데이터 베이스
   - 데이터 베이스 이름의 첫번째는 반드시 대문자이다.
   - 단어와 단어 사이의 구분을 위해 단어의 첫번째 문자는 반드시 대문자로 정한다.
-  - 
+  - 참고 : https://ahhim-it.tistory.com/17
   
