@@ -38,18 +38,7 @@
 
 
 
-#Chat-Room-Body { /* body 부분*/
-	border: 1px solid rgba(112,112,112,1);
-	position: relative;
-	overflow: scroll;
-	/* float:left; */
-	width: 400px;
-	height: 760px;
-	left: 0px;
-	top: 40px;
-	float: left;
-	
-}
+
 
 
 .head-box {
@@ -193,54 +182,10 @@
 	top: 5px;
 	transform: matrix(1,0,0,1,0,0);
 }
-.message_Class {
-	position: relative;
-	width: 380px;
-	height: 59px;
-	margin: 10px;
-	margin-top: 20px;
-	overflow: visible;
-	
-}
-.box_t_Class {
-	position: absolute;
-	overflow: visible;
-	width: 128px;
-	height: 35px;
-	left: 0px;
-	top: 24px;
-	border: 1px solid rgba(112,112,112,1);
-	background: rgba(255,255,255,1);
-	border-radius: 15px;
-}
-.conlogin-div {
-	left: 10px;
-	top: 7px;
-	position: absolute;
-	overflow: visible;
-	width: 84px;
-	white-space: nowrap;
-	text-align: left;
-	font-family: Segoe UI;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 16px;
-	color: rgba(0,0,0,1);
-}
-.clinet_Class {
-	left: 0px;
-	top: 0px;
-	position: absolute;
-	overflow: visible;
-	width: 61px;
-	white-space: nowrap;
-	text-align: left;
-	font-family: Segoe UI;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 18px;
-	color: rgba(0,0,0,1);
-}
+
+
+
+
 /*.message_w_Class {*/
 /*	position: absolute;*/
 /*	width: 128px;*/

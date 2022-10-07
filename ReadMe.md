@@ -39,6 +39,7 @@
 - jest : test 도구.
   - "test: "jest"
 - socket.io : 소켓 통신에 사용
+  - npm i socket.io@2.1.0  // 구버전 사용, 최신 버전은 join 함수에 버그가 있음.
 - express-socket.io-session : socket.io 내에서 session 데이터 접근
 - ws : websocket 프로토콜을 위한 라이브러리
 - express-session : session 관리 라이브러리

@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chat-Room</title>
 <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="Chat_Room.css"/>
+<link rel="stylesheet" type="text/css" id="applicationStylesheet" href="Chat_Room_body.css"/>
 <script id="applicationScript" type="text/javascript" src="Chat_Room.js"></script>
 </head>
 <body>
@@ -25,20 +26,20 @@
 
 	<div id="Chat-Room-Body">
 
-		<div class="message_Class">
-			<div class="clinet_Class">
+		<!-- <div class="message_Class">
+			<div class="client-Class-me">
 				<span>client-1</span>
 			</div>
 
-			<div class="box_t_Class" >
-				<span class="conlogin-div">
+			<div class="box_t_Class_me" >
+				<span class="conlogin-div-me">
 					안녕하세요.
 				</span>
 			</div>
-		</div>
+		</div> -->
 
 
-		<!-- 여백 -->
+		<!-- 여백, 입력기를 위해서 아래 여백을 만들어줌.-->
 		<div class="message_Class" id="body-padding"></div> 
 		
 	</div>
@@ -100,6 +101,31 @@
 			parent.insertBefore(message_Class, before_element);
 			// console.log("join 됨");
 		}
+
+		function makeMyChat(name, content){
+			const message_Class = document.createElement('div');
+			message_Class.className = 'message_Class'
+			const Client_Class = document.createElement('div')
+			Client_Class.className = "client-Class-me";
+			const span = document.createElement('span');
+			span.textContent = `${name}`;
+			Client_Class.appendChild(span);
+
+			const box_t_Class = document.createElement('div');
+			box_t_Class.className = "box_t_Class_me"
+			const conlogin_div= document.createElement('span');
+			box_t_Class.appendChild(conlogin_div);
+			conlogin_div.textContent = `${content}`;
+			conlogin_div.className = "conlogin-div-me";
+
+			message_Class.appendChild(Client_Class);
+			message_Class.appendChild(box_t_Class);
+
+			const parent = document.querySelector('#Chat-Room-Body');
+			const before_element = document.querySelector("#body-padding");
+			parent.insertBefore(message_Class, before_element);
+		}
+		
 		
 
 		socket.on('join', (data)=> {
@@ -110,9 +136,12 @@
 		})
 
 		socket.on("getChatAll", (data) => {
-			console.log(data)
+			// console.log(data)
 			for(const i of data.chats) {
-				makeChat(i.nick, i.chat)
+				if(i.user == data.session.id)
+					makeMyChat(i.nick, i.chat)
+				else
+					makeChat(i.nick, i.chat)
 			}
 
 			
@@ -127,17 +156,27 @@
                         changedRows: 1
                     }
 			*/
-
-			
+		
+			const objDiv = document.getElementById("Chat-Room-Body");
+			objDiv.scrollTop = objDiv.scrollHeight;
 		})
+		
 
 		socket.on("post Chat", (data) => {
-			makeChat(data.user, data.chat)
+			if(data.who == "my")
+					makeMyChat(data.user, data.chat) 
+				else
+					makeChat(data.user, data.chat)
+
+			const objDiv = document.getElementById("Chat-Room-Body");
+			objDiv.scrollTop = objDiv.scrollHeight;
 		})
 
 		function EnterChat(data) {
 			socket.emit("post Chat", {content : data })
 		}
+		
+	
 
 
 		

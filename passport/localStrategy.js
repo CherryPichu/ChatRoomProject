@@ -16,8 +16,8 @@ module.exports = () => {
                 // console.log(exUser)
                 if(err){ console.error(err); return;}
                 if(exUser){
-                    // const result = await bcypy.compare(password, exUser.password);
-                    const result = password == exUser.password
+                    const result = await bcypy.compare(password, exUser.password);
+                    // const result = password == exUser.password
                     if(result){
                         done(null, exUser)
                     }else {

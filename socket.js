@@ -37,7 +37,7 @@ module.exports = (server, app, sessionMiddleware) => {
                 } 
                 for(const i of data){
                     // console.log(i)
-                    io.of('/wattingRoom').emit('newRoom', i)
+                    socket.emit('newRoom', i)
                 }
             });
             
@@ -53,9 +53,9 @@ module.exports = (server, app, sessionMiddleware) => {
         const { headers : { referer } } = req;
         // console.log(referer)
         const roomid = referer.split("=")[1]
+        // console.log(socket.adapter.rooms)
+        socket.join(roomid)
         
-        socket = socket.join(roomid)
-
         const session = req.session
         var user = "anonymous"
         if(session.passport){
@@ -91,11 +91,13 @@ module.exports = (server, app, sessionMiddleware) => {
         
 
         socket.on("post Chat", (data) => {
+
             // console.log(data)
+            // console.log(user)
             const newchat = new Chatdb({
                 chat : data.content,
                 room : roomid,
-                user : 1,
+                user : user.id,
                 gif : null,
                 nick : user.nick,
             })
@@ -104,17 +106,21 @@ module.exports = (server, app, sessionMiddleware) => {
                     console.error(err);
                     return;
                 } 
+            })
+            socket.to(roomid).emit("post Chat", { // 자신을 제외한 room에 있는 모두에게 보냄
+                user:user.nick,
+                who : "other",
+                chat : data.content, // 결과를 모두 보냄.
+                session : user,
+            })
 
-                socket.emit("post Chat", {
-                    user:user.nick,
-                    chat : data.content, // 결과를 모두 보냄.
-                    session : user,
-                    
-                })
-
+            socket.emit("post Chat", { // 자신에게도 보냄
+                user: user.nick,
+                who : "my",
+                chat : data.content, // 결과를 모두 보냄.
+                session : user,
             })
         })
-
        
         socket.on('disconnect', () => {
             console.log("chatRoom 네임스페이스 접속 해제")
@@ -122,5 +128,10 @@ module.exports = (server, app, sessionMiddleware) => {
 
         })
     })
+
+    // 채팅방 만들기
+
+    // 채팅방 삭제
+    
 }
 
