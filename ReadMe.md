@@ -4,7 +4,7 @@
 
 ### 개발할 내용
 - 로그인 및 채팅 프로필 생성 기능.
-- SNS 로그인 (카카오)
+- SNS 로그인 (카카오) (개발 x)
 - 채팅방 생성.
 - 채팅방 가입.
 - 채팅방 그룹으로 통신 기능.
@@ -53,7 +53,7 @@
 - bcrypt : 비밀번호 암호화에 필요한 라이브러리
 - express-mysql-session : 세션을 mysql에 저장하기 위한 라이브러리
   - 참고 : https://jamong-icetea.tistory.com/143
-
+- urlencode : 한글 URI decode 하기 위해서 사용
 
 #### 참고 사이트
 - swagger api 문서 자동화
@@ -77,3 +77,4 @@
   - 단어와 단어 사이의 구분을 위해 단어의 첫번째 문자는 반드시 대문자로 정한다.
   - 참고 : https://ahhim-it.tistory.com/17
   
+[![video](./videoimage.jpg)](https://www.youtube.com/watch?v=h7HLtcvQ5i4)
