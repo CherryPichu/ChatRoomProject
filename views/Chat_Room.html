@@ -47,7 +47,7 @@
 	<div id="Chat-Room-foot">
 		<input class="input-message_Class" placeholder="Press Enter for send message" onkeyup="if(window.event.keyCode==13){EnterChat( this.value )}" />
 
-		<div class="attach-button_Class">
+		<div class="attach-button_Class" onclick="removeRomm()">
 			<svg class="box_p">
 				<rect class="box_p_Class" rx="11" ry="11" x="0" y="0" width="36" height="36">
 				</rect>
@@ -56,10 +56,10 @@
 				<path class="line_Class" d="M 0 0 L 26 0">
 				</path>
 			</svg>
-			<svg class="line_r" viewBox="0 0 2 26">
+			<!-- <svg class="line_r" viewBox="0 0 2 26">
 				<path class="line_r_Class" d="M 0 26 L 0 0">
 				</path>
-			</svg>
+			</svg> -->
 		</div>
 	</div>
 </div>
@@ -176,8 +176,23 @@
 			socket.emit("post Chat", {content : data })
 		}
 		
-	
+		function removeRomm(){
+			if(!confirm("방을 삭제하겠습니까? 방 생성자만 가능.")){
+				// 아니요 선택시
+			}else{
+				socket.emit("removeRoom")// 예 선택시
+			}
+		}
 
+		socket.on("success Remove", (data) =>{
+			alert(data);
+			window.location ="/"
+
+		})
+
+		socket.on("warring", (data) =>{
+			alert(data);
+		})
 
 		
 </script>

@@ -99,14 +99,16 @@ Chat.loadChat = (byChat, result, num ) => {
     let query = "SELECT * FROM Chat"
     
     query += MakeWhereWord(byChat)
-    query += " ORDER BY createAt LIMIT " + num
+    query += " ORDER BY createAt DESC LIMIT " + num 
     sql.query(query, (err, res) => {
+        res.reverse()// 한반 뒤집어 줘야 순서대로 출력됨.
         if(err) {
             console.log("error: ", err);
             result(err, null)
             return;
         }
         if(res.length) {
+            // console.log(res.reverse())
             // console.log("found chat : ", res[0])
             result(null, res)
             return;

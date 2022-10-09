@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>로그인 페이지</title>
+    </head>
+    <body>
+        <form action="/createRoom" method="post">
+            <table>
+                <tr>
+                    <td>
+                        방 제목 : 
+                    </td>
+                    <td><input type="text" name="title" /></td>
+                </tr>
+                <tr>
+                    <td> 인원수 제한 : </td>
+                    <td><input type="text" name="max" /></td>
+                </tr>
+                <tr>
+                    <td> 비밀번호 : </td>
+                    <td><input type="text" name="password" /></td>
+                </tr>
+                <tr>
+                    <td> 방 상태 : </td>
+                    <td>
+                        <select name="state"> 
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="회원가입"/></td>
+                </tr>
+                
+            </table>
+        </form>
+        <form action="/" method="get"> <input type="submit" value="메인페이지"/></form>
+
+    </body>
+</html>

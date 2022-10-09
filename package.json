@@ -29,6 +29,7 @@
   "path": "^0.12.7",
   "socket.io": "^2.1.0",
   "swagger-cli": "^4.0.4",
+  "urlencode": "^1.1.0",
   "ws": "^8.8.1"
  },
  "devDependencies": {

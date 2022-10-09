@@ -5,7 +5,7 @@ const Roomdb = require('./models/Room')
 const cookie = require('cookie-signature');
 const Chatdb = require('./models/Chat');
 const { param } = require('./routes/page');
-
+var urlencode = require('urlencode');
 
 module.exports = (server, app, sessionMiddleware) => {
     const io = ScoketIO(server, { path : "/socket.io"});
@@ -25,12 +25,13 @@ module.exports = (server, app, sessionMiddleware) => {
     })
 
     waittingRoom.on("connection", (socket) => {
+
         console.log("wattingRoom 네임스페이스 접속")
         socket.on('disconnect', () => {
             console.log("room 네임스페이스 접속 해제")
         })
         socket.on('get room', () => {
-            Roomdb.getAll((err, data) => {
+            Roomdb.getAllNotDeleted((err, data) => {
                 if(err){
                     console.error(err);
                     return;
@@ -43,6 +44,10 @@ module.exports = (server, app, sessionMiddleware) => {
             
         })
 
+
+
+
+
     })
 
     chatRoom.on("connection", (socket) => {
@@ -52,7 +57,7 @@ module.exports = (server, app, sessionMiddleware) => {
         console.log("ChatRoom에 접속")
         const { headers : { referer } } = req;
         // console.log(referer)
-        const roomid = referer.split("=")[1]
+        const roomid = urlencode.decode(referer.split("=")[1])//url이 한글이면 decode역활
         // console.log(socket.adapter.rooms)
         socket.join(roomid)
         
@@ -72,9 +77,8 @@ module.exports = (server, app, sessionMiddleware) => {
             room : roomid,
         })
 
+        
         Chatdb.loadChat(byChat,(err, res) => {
-            
-
             if(err){
                 console.error(err);
                 return;
@@ -88,6 +92,7 @@ module.exports = (server, app, sessionMiddleware) => {
                 
             })
         } , 30) // 최근 30개
+        
         
 
         socket.on("post Chat", (data) => {
@@ -120,13 +125,59 @@ module.exports = (server, app, sessionMiddleware) => {
                 chat : data.content, // 결과를 모두 보냄.
                 session : user,
             })
+
+            
         })
+        socket.on("removeRoom", (data) => {
+            // if(user.id == )
+           
+            // console.log(urlencode.decode(roomid))
+            var byRoom = new Roomdb({
+                title : roomid,
+            }); // title은 주키
+            Roomdb.findByRoom(byRoom , (err, res) => {
+                
+                if(err){
+                    console.error(err)
+                }
+                if(res.owner == user.id){
+                    Roomdb.remove2(roomid, (err, res)=>{
+                        if(err){
+                            console.error(err)
+                            return;
+                        }
+                        socket.emit("success Remove","성공적으로 " + roomid+" 방을 삭제했습니다.")
+                    })
+                    
+                    return ;
+                }
+                // console.log("다른 사용자")
+                socket.emit("warring","다른 사용자가 만든 방 입니다.")
+            })   
+            
+            // byRoom = new Roomdb({
+            //     title : roomid,
+            // }); // title은 주키
+            
+
+            // Roomdb.remove(byRoom, (err, res) => {
+            //     if(err){
+            //         socket.emit("error", "방 삭제 에러");
+            //     }
+            //     socket.emit("success","방 삭제 성공")
+
+            // })
+
+        })
+
        
         socket.on('disconnect', () => {
             console.log("chatRoom 네임스페이스 접속 해제")
             socket.leave(roomid);
 
         })
+
+
     })
 
     // 채팅방 만들기

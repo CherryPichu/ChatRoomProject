@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 const {isLoggedIn }= require('../middlewares/middlewares')
+const { createRoom } = require('../controllers/page.controller')
 
 const Client = require('../models/Client.js')
 
@@ -25,6 +26,11 @@ router.get("/join", (req, res, next) => {
     res.render('Chat_join.html')
 })
 
+router.get("/create", (req, res, next) => {
+    res.render('Chat_create.html')
+})
+
+router.post("/createRoom", createRoom)
 
 module.exports = router
 

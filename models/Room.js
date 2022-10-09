@@ -1,5 +1,5 @@
 const sql = require('./db.config.js')
-
+const app = require('express/')
 /**
  * @swagger
  *  components :
@@ -27,6 +27,15 @@ const sql = require('./db.config.js')
  *        
  */  
 
+//  const newRoom = new Roomdb({
+//     title : ,
+//     inPeople : ,
+//     max : ,
+//     owner : ,
+//     password : ,
+//     state : ,
+// });
+
 const Room = function (room) {
     this.title = room.title;
     this.inPeople = room.inPeople
@@ -35,6 +44,8 @@ const Room = function (room) {
     this.password = room.password;
     this.state = room.state;
 }
+
+
 
 MakeWhereWord = (objdb) => {
     query = " WHERE "
@@ -73,7 +84,17 @@ Room.create = (newRoom, result) => {
 }
 
 
-
+/*
+{
+  title: 'namjung',
+  inPeople: 0,
+  max: 12,
+  owner: 178,
+  password: '1234',
+  createAt: 2022-10-08T18:04:08.000Z,
+  state: 'Public'
+}
+*/
 Room.findByRoom = (byRoom, result) => {
     let query = "SELECT * FROM Room "
     query += MakeWhereWord(byRoom)
@@ -94,6 +115,12 @@ Room.findByRoom = (byRoom, result) => {
 
 }
 
+Room.loadInPeoPle = () => { // inPeople을 갱신해줌
+    // Room.getAll(res.);
+    
+    // Room.findByRoom()
+}
+
 Room.getAll = (result) => {
     sql.query("SELECT * FROM Room", (err, res) => {
         if(err){
@@ -105,12 +132,22 @@ Room.getAll = (result) => {
     })
 
 }
+Room.getAllNotDeleted = (result) => {
+    sql.query("SELECT * FROM Room Where deletedAt is null", (err, res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null)
+            return;
+        }
+        result(null, res)
+    })
 
+}
 
-Room.updateByTitle = (title, room, result) => {
+Room.updateByTitle = (title, newRoom, result) => {
 
     
-    sql.query("UPDATE Room SET ? WHERE title = ?", [room, title],
+    sql.query("UPDATE Room SET ? WHERE title = ?", [newRoom, title],
         (err, res) => {
             if(err){
                 console.log("error : ", err)
@@ -122,6 +159,23 @@ Room.updateByTitle = (title, room, result) => {
 
             // console.log("update Room : ", {id :id, chat})
             console.log(res)
+            result(null, res)
+    })
+}
+Room.remove2 = (title, result) => {
+
+    sql.query("UPDATE Room SET deletedAt = now() WHERE title = ?", [title],
+        (err, res) => {
+            if(err){
+                console.log("error : ", err)
+                result(err, null)
+            }
+            if(res.affectedRows == 0){
+                result({kind : "not_found"}, null);
+            }
+
+            // console.log("update Room : ", {id :id, chat})
+            // console.log(res)
             result(null, res)
     })
 }
